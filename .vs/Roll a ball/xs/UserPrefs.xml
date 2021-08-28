@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{9D64DFB3-8832-C7E6-3BF8-A99AA2E543A7}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/collectableRotate.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ballMovement.cs">
     <Files>
-      <File FileName="Assets/Scripts/ballMovement.cs" Line="46" Column="3" />
-      <File FileName="Assets/Scripts/collectableRotate.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ballMovement.cs" Line="4" Column="26" />
+      <File FileName="Assets/Scripts/collectableRotate.cs" />
+      <File FileName="Assets/Scripts/cmCanLook.cs" Line="44" Column="15" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +11,7 @@
           <Node name="Roll a ball" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="collectableRotate.cs" selected="True" />
+                <Node name="ballMovement.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -20,7 +21,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="470bcc30-1cf8-44d5-a1c1-0a1380d32e9b" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="2089d081-ee79-4ec0-ba32-3ad13adbf8d9" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

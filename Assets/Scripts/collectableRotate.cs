@@ -16,6 +16,6 @@ public class collectableRotate : MonoBehaviour {
 	void Update() {
 		transform.Rotate(this.rotateSpeed * Time.deltaTime);
 		this.time += Time.deltaTime;
-		transform.position = new Vector3(transform.position.x, (float)(Math.Sin(this.time * this.bobSpeed) * this.bobAmount) + yCentre, transform.position.z);
+		transform.position = new Vector3(transform.position.x, (Mathf.Sin(this.time * this.bobSpeed) * this.bobAmount) + yCentre, transform.position.z);
 	}
 }

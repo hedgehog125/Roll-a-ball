@@ -11,11 +11,13 @@ public class ballMovement : MonoBehaviour
 	public int maxCoyoteTime;
 	public int maxJumpHold;
 	public float jumpHoldCurveSteepness;
+	public GameObject mainCamera;
 
 
 	private Rigidbody rb;
 	private Collider col;
-    private Vector2 move;
+
+    public Vector2 move;
 	private bool isJumping;
 	public List<GameObject> onground = new List<GameObject>();
 	private int coyoteTime;
@@ -38,16 +40,16 @@ public class ballMovement : MonoBehaviour
 		this.isJumping = value.Get<float>() > 0;
 	}
 	void OnCollisionEnter(Collision collision) {
-		float maxY = this.transform.position.y - (this.col.bounds.size.y / 2);
+		float bottomY = this.transform.position.y - (this.col.bounds.size.y / 4);
 		bool below = false;
 		int count = collision.contactCount;
 		for (int i = 0; i < count; i++) {
-			if (collision.GetContact(i).point.y <= maxY) {
+			if (collision.GetContact(i).point.y <= bottomY) { // Point of contact has to be in the bottom quarter.
 				below = true;
 				break;
 			}
 		}
-		//collision.gameObject.transform.position.y + (collision.gameObject.GetComponent<Collider>().bounds.size.y / 2) <= this.transform.position.y
+		// collision.gameObject.transform.position.y + (collision.gameObject.GetComponent<Collider>().bounds.size.y / 2) <= this.transform.position.y
 		if (below) {
 			this.onground.Add(collision.gameObject);
 		}
@@ -60,26 +62,28 @@ public class ballMovement : MonoBehaviour
 	void FixedUpdate() {
 		float y = 0.0f;
 		if (this.isJumping) {
-			if (this.onground.Count != 0|| (this.holdJumpTime > 0 && this.holdJumpTime < this.maxJumpHold)) {
+			if (this.onground.Count != 0 || (this.holdJumpTime > 0 && this.holdJumpTime < this.maxJumpHold)) {
 				this.holdJumpTime++;
 				y = (this.jumpPower / (
-					(float)Math.Sqrt(
-						(double)this.holdJumpTime
+					Mathf.Sqrt(
+						this.holdJumpTime
 						* this.jumpHoldCurveSteepness
 					)
 					- (this.jumpHoldCurveSteepness - 1)
-				)) * (((float)Math.Sqrt(Math.Pow(rb.velocity.x, 2) + Math.Pow(rb.velocity.z, 2)) * this.jumpSpeedBoost) + 1);
+				)) * ((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) * this.jumpSpeedBoost) + 1);
 			}
 		}
 		else {
 			this.holdJumpTime = 0.0f;
 		}
 
+		float rad = Mathf.Atan2(this.move.x, this.move.y) + (this.mainCamera.transform.eulerAngles.y * Mathf.Deg2Rad);
+		float distance = Mathf.Sqrt(Mathf.Pow(this.move.x, 2) + Mathf.Pow(this.move.y, 2));
         Vector3 move3 = new Vector3(
-            this.move.x,
+            Mathf.Sin(rad) * speed * distance,
             y,
-            this.move.y
+			Mathf.Cos(rad) * speed * distance
         );
-        rb.AddForce(move3 * speed);
+        rb.AddForce(move3);
     }
 }

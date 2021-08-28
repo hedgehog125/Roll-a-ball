@@ -2,7 +2,7 @@
     "name": "Roll a ball",
     "maps": [
         {
-            "name": "Player",
+            "name": "In game",
             "id": "a5ca60d2-ca00-4892-a878-5937aac0ece6",
             "actions": [
                 {
@@ -10,6 +10,14 @@
                     "type": "Value",
                     "id": "6b59a97f-d64e-475b-ad14-3d782e10ec54",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Jump",
+                    "type": "Value",
+                    "id": "621367ab-10b9-463c-80aa-14fb9152ae9e",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
@@ -22,10 +30,18 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Jump",
+                    "name": "CanLookClick",
                     "type": "Value",
-                    "id": "621367ab-10b9-463c-80aa-14fb9152ae9e",
+                    "id": "25019eba-00c0-4470-bc54-30b6af5fe6d3",
                     "expectedControlType": "Digital",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CanLookRStick",
+                    "type": "Value",
+                    "id": "dc172f89-23e2-4ea5-bd3e-dae930951fa8",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -165,6 +181,105 @@
                 },
                 {
                     "name": "",
+                    "id": "5682d13a-7194-476f-9f70-f8d6dab325be",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "181b487a-3744-4287-aa06-180fb6c6d31b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2f99aea-4364-4eb6-a92a-2fa236ce658b",
+                    "path": "<HID::Unknown DUALSHOCK 4 Wireless Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3d29f3e-fc3d-454e-946b-053975efe842",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CanLookClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31cb63dc-dd68-48b2-990d-1bb94caaa89c",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CanLookRStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5005c264-184c-4594-8892-4dcaf118943a",
+                    "path": "<WebGLGamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CanLookRStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03d08072-0050-463e-865a-642e83a24cd8",
+                    "path": "<AndroidGamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CanLookRStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53bfc728-2000-4dd4-bdf2-4ac4be11dc89",
+                    "path": "<DualShockGamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CanLookRStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66c013c8-618f-467f-9342-1476ef2c1f78",
+                    "path": "<DualShockGamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CanLookRStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c1f7a91b-d0fd-4a62-997e-7fb9b69bf235",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -198,23 +313,23 @@
                 },
                 {
                     "name": "",
-                    "id": "5682d13a-7194-476f-9f70-f8d6dab325be",
-                    "path": "<Gamepad>/buttonSouth",
+                    "id": "b7eccb56-252c-4bac-a442-573e7ac33d4d",
+                    "path": "<AndroidGamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Jump",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "181b487a-3744-4287-aa06-180fb6c6d31b",
-                    "path": "<Keyboard>/space",
+                    "id": "f98da071-c375-40a0-9170-0ac9cacb6d60",
+                    "path": "<DualShockGamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Jump",
+                    "groups": "Gamepad",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
