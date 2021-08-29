@@ -9,6 +9,7 @@ public class ballMovement : MonoBehaviour
 	public float jumpPower;
 	public float jumpSpeedBoost;
 	public int maxCoyoteTime;
+	public int maxJumpBufferTime;
 	public int maxJumpHold;
 	public float jumpHoldCurveSteepness;
 	public GameObject mainCamera;
@@ -19,7 +20,8 @@ public class ballMovement : MonoBehaviour
 
     public Vector2 move;
 	private bool isJumping;
-	public List<GameObject> onground = new List<GameObject>();
+	private int jumpBufferTick;
+	private List<GameObject> onground = new List<GameObject>();
 	private int coyoteTime;
 	private float holdJumpTime;
 
@@ -49,20 +51,37 @@ public class ballMovement : MonoBehaviour
 				break;
 			}
 		}
-		// collision.gameObject.transform.position.y + (collision.gameObject.GetComponent<Collider>().bounds.size.y / 2) <= this.transform.position.y
 		if (below) {
 			this.onground.Add(collision.gameObject);
 		}
 
+	}
+	void OnTriggerEnter(Collider collision) {
+		GameObject collect = collision.gameObject;
+		if (collect.CompareTag("Collectible")) {
+			collect.SetActive(false);
+		}
 	}
 	void OnCollisionExit(Collision collision) {
 		this.onground.Remove(collision.gameObject);
 	}
 
 	void FixedUpdate() {
+		bool onGround = this.onground.Count != 0;
+		if (onGround) {
+			this.coyoteTime = 0;
+		}
+		else {
+			if (this.coyoteTime != this.maxCoyoteTime) {
+				this.coyoteTime++;
+				onGround = true;
+			}
+		}
+
 		float y = 0.0f;
 		if (this.isJumping) {
-			if (this.onground.Count != 0 || (this.holdJumpTime > 0 && this.holdJumpTime < this.maxJumpHold)) {
+			if (onGround || (this.holdJumpTime > 0 && this.holdJumpTime < this.maxJumpHold)) {
+				this.jumpBufferTick = 0;
 				this.holdJumpTime++;
 				y = (this.jumpPower / (
 					Mathf.Sqrt(
@@ -71,10 +90,24 @@ public class ballMovement : MonoBehaviour
 					)
 					- (this.jumpHoldCurveSteepness - 1)
 				)) * ((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) * this.jumpSpeedBoost) + 1);
-			}
+			}	
 		}
 		else {
-			this.holdJumpTime = 0.0f;
+			if (this.holdJumpTime > 0) {
+				this.holdJumpTime = 0.0f;
+				this.coyoteTime = 0;
+			}
+		}
+
+		// Prevent jump from happening if it was pressed in air once it's been pressed for longer than maxJumpBufferTime
+		if ((! (this.holdJumpTime > 0)) && (((! onGround) && this.isJumping) || this.jumpBufferTick != 0)) {
+			if (this.jumpBufferTick == this.maxJumpBufferTime) {
+				this.jumpBufferTick = 0;
+				this.isJumping = false;
+			}
+			else {
+				this.jumpBufferTick++;
+			}
 		}
 
 		float rad = Mathf.Atan2(this.move.x, this.move.y) + (this.mainCamera.transform.eulerAngles.y * Mathf.Deg2Rad);
