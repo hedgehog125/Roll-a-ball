@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class ballMovement : MonoBehaviour
@@ -13,6 +14,9 @@ public class ballMovement : MonoBehaviour
 	public int maxJumpHold;
 	public float jumpHoldCurveSteepness;
 	public GameObject mainCamera;
+	public GameObject collectiblesParent;
+	public GameObject levelInfoSprite;
+	private levelInfoScript levelInfo;
 
 
 	private Rigidbody rb;
@@ -25,11 +29,15 @@ public class ballMovement : MonoBehaviour
 	private int coyoteTime;
 	private float holdJumpTime;
 
+	private int collectibleCount;
+
 
 	void Start()
     {
         this.rb = this.GetComponent<Rigidbody>();
 		this.col = this.GetComponent<Collider>();
+
+		this.levelInfo = this.levelInfoSprite.GetComponent<levelInfoScript>();
     }    
 
     void OnMove(InputValue movementValue)
@@ -60,6 +68,12 @@ public class ballMovement : MonoBehaviour
 		GameObject collect = collision.gameObject;
 		if (collect.CompareTag("Collectible")) {
 			collect.SetActive(false);
+			this.collectibleCount++;
+			if (this.collectibleCount == this.collectiblesParent.transform.childCount) {
+				int level = levelInfo.levelID + 1;
+				if (levelInfo.lastLevel) level = 1;
+				SceneManager.LoadScene("Level " + level, LoadSceneMode.Single);
+			}
 		}
 	}
 	void OnCollisionExit(Collision collision) {
