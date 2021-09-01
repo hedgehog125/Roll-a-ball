@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637657789710000000
-    m_Hash: 3671812965
+      ticks: 637660010970000000
+    m_Hash: 1870381161
   m_LockFileStatus:
     m_FilePath: /Users/nico/Documents/Unity/Roll a ball/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637657789890000000
-    m_Hash: 3149642546
+      ticks: 637660011090000000
+    m_Hash: 442144054
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -260,12 +260,12 @@ m_PackageAssets:
         url: git+https://github.com/Unity-Technologies/com.unity.cinemachine.git
         revision: 9b5976153830563c8e94c9bcd9131d4452a02c0f
         path: 
-    - packageId: com.unity.collab-proxy@1.5.7
+    - packageId: com.unity.collab-proxy@1.7.1
       testable: 0
       isDirectDependency: 1
-      version: 1.5.7
+      version: 1.7.1
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.collab-proxy@1.5.7
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.collab-proxy@1.7.1
       assetPath: Packages/com.unity.collab-proxy
       name: com.unity.collab-proxy
       displayName: Version Control
@@ -317,9 +317,9 @@ m_PackageAssets:
         - 2.1.0-preview.5
         - 2.1.0-preview.6
         compatible:
-        - 1.5.7
-        - 1.6.0
+        - 1.7.1
         - 1.8.0
+        - 1.9.0
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -330,7 +330,7 @@ m_PackageAssets:
         - 2.1.0-preview.3
         - 2.1.0-preview.5
         - 2.1.0-preview.6
-        verified: 1.5.7
+        verified: 1.7.1
       dependencies:
       - name: com.unity.nuget.newtonsoft-json
         version: 2.0.0
@@ -338,16 +338,19 @@ m_PackageAssets:
       - name: com.unity.nuget.newtonsoft-json
         version: 2.0.0
       keywords:
-      - vsc
-      - version
-      - control
-      - collab
-      - collaboration
-      - collaborate
-      - teams
-      - team
-      - cloud
       - backup
+      - cloud
+      - collab
+      - collaborate
+      - collaboration
+      - control
+      - plastic
+      - plasticscm
+      - source
+      - team
+      - teams
+      - version
+      - vcs
       registry:
         id: main
         name: 
@@ -360,13 +363,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637551413290000000
+      datePublishedTicks: 637616921650000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.cloud.collaborate.git
-        revision: f079d307344f568804d3ea6d781013135e614e45
+        revision: 30ef59f552633de9ff0401db4e73ac89982d4ac0
         path: 
     - packageId: com.unity.ide.rider@2.0.7
       testable: 0
@@ -447,7 +450,7 @@ m_PackageAssets:
         version: 1.1.1
       resolvedDependencies:
       - name: com.unity.test-framework
-        version: 1.1.24
+        version: 1.1.27
       - name: com.unity.ext.nunit
         version: 1.0.6
       - name: com.unity.modules.imgui
@@ -475,12 +478,12 @@ m_PackageAssets:
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.rider.git
         revision: abb44f053e9a41d2e00e149e32a19bcec76e98b4
         path: 
-    - packageId: com.unity.ide.visualstudio@2.0.8
+    - packageId: com.unity.ide.visualstudio@2.0.11
       testable: 0
       isDirectDependency: 1
-      version: 2.0.8
+      version: 2.0.11
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.ide.visualstudio@2.0.8
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.ide.visualstudio@2.0.11
       assetPath: Packages/com.unity.ide.visualstudio
       name: com.unity.ide.visualstudio
       displayName: Visual Studio Editor
@@ -534,7 +537,7 @@ m_PackageAssets:
         version: 1.1.9
       resolvedDependencies:
       - name: com.unity.test-framework
-        version: 1.1.24
+        version: 1.1.27
       - name: com.unity.ext.nunit
         version: 1.0.6
       - name: com.unity.modules.imgui
@@ -554,13 +557,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637562620210000000
+      datePublishedTicks: 637613656180000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.visualstudio.git
-        revision: 5cdf5d932e6ecbbd83bbe6a40eec2a94b4979501
+        revision: 680e06d94ffca728223ae2cb14bb919cd354e2c1
         path: 
     - packageId: com.unity.ide.vscode@1.2.3
       testable: 0
@@ -741,12 +744,12 @@ m_PackageAssets:
         url: git+https://github.com/Unity-Technologies/InputSystem.git
         revision: 041def76515febb36a83d1f928cfb7aefb85176c
         path: 
-    - packageId: com.unity.render-pipelines.universal@10.5.0
+    - packageId: com.unity.render-pipelines.universal@10.6.0
       testable: 0
       isDirectDependency: 1
-      version: 10.5.0
+      version: 10.6.0
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.render-pipelines.universal@10.5.0
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.render-pipelines.universal@10.6.0
       assetPath: Packages/com.unity.render-pipelines.universal
       name: com.unity.render-pipelines.universal
       displayName: Universal RP
@@ -804,21 +807,20 @@ m_PackageAssets:
         - 10.5.1
         - 10.6.0
         compatible:
-        - 10.5.0
-        - 10.5.1
-        verified: 10.5.1
+        - 10.6.0
+        verified: 10.6.0
       dependencies:
       - name: com.unity.mathematics
         version: 1.1.0
       - name: com.unity.render-pipelines.core
-        version: 10.5.0
+        version: 10.6.0
       - name: com.unity.shadergraph
-        version: 10.5.0
+        version: 10.6.0
       resolvedDependencies:
       - name: com.unity.mathematics
         version: 1.1.0
       - name: com.unity.render-pipelines.core
-        version: 10.5.0
+        version: 10.6.0
       - name: com.unity.ugui
         version: 1.0.0
       - name: com.unity.modules.ui
@@ -826,7 +828,7 @@ m_PackageAssets:
       - name: com.unity.modules.imgui
         version: 1.0.0
       - name: com.unity.shadergraph
-        version: 10.5.0
+        version: 10.6.0
       - name: com.unity.searcher
         version: 4.3.2
       keywords:
@@ -848,20 +850,20 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637550685770000000
+      datePublishedTicks: 637613661830000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: git+https://github.com/Unity-Technologies/Graphics.git
-        revision: 7ff8fd444c179fd9bb380d61f4865be6935b47dd
+        url: https://github.com/Unity-Technologies/Graphics.git
+        revision: d645e6b498e293626bcb30ec32b652b9f584e9b5
         path: 
-    - packageId: com.unity.test-framework@1.1.24
+    - packageId: com.unity.test-framework@1.1.27
       testable: 0
       isDirectDependency: 1
-      version: 1.1.24
+      version: 1.1.27
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.test-framework@1.1.24
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.test-framework@1.1.27
       assetPath: Packages/com.unity.test-framework
       name: com.unity.test-framework
       displayName: Test Framework
@@ -908,8 +910,6 @@ m_PackageAssets:
         - 1.1.27
         - 1.1.29
         compatible:
-        - 1.1.24
-        - 1.1.26
         - 1.1.27
         - 1.1.29
         verified: 1.1.29
@@ -942,13 +942,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637505702940000000
+      datePublishedTicks: 637594751620000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
         url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
-        revision: e6fe8892689398c0d9aba4587e0ba69edc3d82b8
+        revision: c2f2cc9b7ea61d42964257363595dff5e8c47c42
         path: 
     - packageId: com.unity.textmeshpro@3.0.6
       testable: 0
@@ -1324,12 +1324,12 @@ m_PackageAssets:
         url: 
         revision: 
         path: 
-    - packageId: com.unity.xr.legacyinputhelpers@2.1.7
+    - packageId: com.unity.xr.legacyinputhelpers@2.1.8
       testable: 0
       isDirectDependency: 1
-      version: 2.1.7
+      version: 2.1.8
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.xr.legacyinputhelpers@2.1.7
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.xr.legacyinputhelpers@2.1.8
       assetPath: Packages/com.unity.xr.legacyinputhelpers
       name: com.unity.xr.legacyinputhelpers
       displayName: XR Legacy Input Helpers
@@ -1371,9 +1371,10 @@ m_PackageAssets:
         - 2.1.4
         - 2.1.6
         - 2.1.7
+        - 2.1.8
         compatible:
-        - 2.1.7
-        verified: 2.1.7
+        - 2.1.8
+        verified: 2.1.8
       dependencies:
       - name: com.unity.modules.vr
         version: 1.0.0
@@ -1408,13 +1409,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637434003470000000
+      datePublishedTicks: 0
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.xr.legacyinputhelpers.git
-        revision: b2024928b8140a10ad43aeb5824d2f08bb8796bc
+        revision: ed3b32c709a0e51cf73fda4b200c59b48955c4be
         path: 
     - packageId: com.unity.modules.ai@1.0.0
       testable: 0
@@ -3294,12 +3295,12 @@ m_PackageAssets:
         url: git@github.com:Unity-Technologies/Unity.Mathematics.git
         revision: 0a3dfafaf606098ea681de4c4be60f3aac63b773
         path: 
-    - packageId: com.unity.render-pipelines.core@10.5.0
+    - packageId: com.unity.render-pipelines.core@10.6.0
       testable: 0
       isDirectDependency: 0
-      version: 10.5.0
+      version: 10.6.0
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.render-pipelines.core@10.5.0
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.render-pipelines.core@10.6.0
       assetPath: Packages/com.unity.render-pipelines.core
       name: com.unity.render-pipelines.core
       displayName: Core RP Library
@@ -3413,9 +3414,8 @@ m_PackageAssets:
         - 10.5.1
         - 10.6.0
         compatible:
-        - 10.5.0
-        - 10.5.1
-        verified: 10.5.1
+        - 10.6.0
+        verified: 10.6.0
       dependencies:
       - name: com.unity.ugui
         version: 1.0.0
@@ -3439,20 +3439,20 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637550675510000000
+      datePublishedTicks: 637613656840000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: git+https://github.com/Unity-Technologies/Graphics.git
-        revision: 7ff8fd444c179fd9bb380d61f4865be6935b47dd
+        url: https://github.com/Unity-Technologies/Graphics.git
+        revision: d645e6b498e293626bcb30ec32b652b9f584e9b5
         path: 
-    - packageId: com.unity.shadergraph@10.5.0
+    - packageId: com.unity.shadergraph@10.6.0
       testable: 0
       isDirectDependency: 0
-      version: 10.5.0
+      version: 10.6.0
       source: 1
-      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.shadergraph@10.5.0
+      resolvedPath: /Users/nico/Documents/Unity/Roll a ball/Library/PackageCache/com.unity.shadergraph@10.6.0
       assetPath: Packages/com.unity.shadergraph
       name: com.unity.shadergraph
       displayName: Shader Graph
@@ -3563,17 +3563,16 @@ m_PackageAssets:
         - 10.5.1
         - 10.6.0
         compatible:
-        - 10.5.0
-        - 10.5.1
-        verified: 10.5.1
+        - 10.6.0
+        verified: 10.6.0
       dependencies:
       - name: com.unity.render-pipelines.core
-        version: 10.5.0
+        version: 10.6.0
       - name: com.unity.searcher
         version: 4.3.2
       resolvedDependencies:
       - name: com.unity.render-pipelines.core
-        version: 10.5.0
+        version: 10.6.0
       - name: com.unity.ugui
         version: 1.0.0
       - name: com.unity.modules.ui
@@ -3595,13 +3594,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637550676160000000
+      datePublishedTicks: 637613662270000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: git+https://github.com/Unity-Technologies/Graphics.git
-        revision: 7ff8fd444c179fd9bb380d61f4865be6935b47dd
+        url: https://github.com/Unity-Technologies/Graphics.git
+        revision: d645e6b498e293626bcb30ec32b652b9f584e9b5
         path: 
     - packageId: com.unity.nuget.newtonsoft-json@2.0.0
       testable: 0
@@ -3756,4 +3755,4 @@ m_PackageAssets:
   m_LocalPackages:
     m_LocalFileStatus: []
 m_ProjectPath: /Users/nico/Documents/Unity/Roll a ball/Packages
-m_EditorVersion: 2020.3.12f1 (b3b2c6512326)
+m_EditorVersion: 2020.3.17f1 (a4537701e4ab)
