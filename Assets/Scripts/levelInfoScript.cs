@@ -6,4 +6,5 @@ public class levelInfoScript : MonoBehaviour
 {
 	public int levelID;
 	public bool lastLevel;
+	public bool showCount;
 }

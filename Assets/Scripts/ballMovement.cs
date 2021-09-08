@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class ballMovement : MonoBehaviour
 {
     public float speed;
+	public float midAirSpeed;
 	public float jumpPower;
 	public float jumpSpeedBoost;
 	public int maxCoyoteTime;
 	public int maxJumpBufferTime;
 	public int maxJumpHold;
 	public float jumpHoldCurveSteepness;
+	public int nextLevelDelay;
 	public GameObject mainCamera;
 	public GameObject collectiblesParent;
 	public GameObject levelInfoSprite;
 	private levelInfoScript levelInfo;
+	public TextMeshProUGUI countObject;
+	public GameObject winObject;
+	public GameObject endObject;
 
 
 	private Rigidbody rb;
@@ -28,17 +34,24 @@ public class ballMovement : MonoBehaviour
 	private List<GameObject> onground = new List<GameObject>();
 	private int coyoteTime;
 	private float holdJumpTime;
-
+	private int nextLevelTick;
 	private int collectibleCount;
 
 
+	private void UpdateCount() {
+		this.countObject.text = "Count: " + this.collectibleCount.ToString() + "/" + this.collectiblesParent.transform.childCount;
+		if (! this.levelInfo.showCount) { // Hide
+			this.countObject.text = "";
+		}
+	}
 	void Start()
     {
         this.rb = this.GetComponent<Rigidbody>();
 		this.col = this.GetComponent<Collider>();
 
 		this.levelInfo = this.levelInfoSprite.GetComponent<levelInfoScript>();
-    }    
+		this.UpdateCount();
+	}    
 
     void OnMove(InputValue movementValue)
     {
@@ -68,11 +81,18 @@ public class ballMovement : MonoBehaviour
 		GameObject collect = collision.gameObject;
 		if (collect.CompareTag("Collectible")) {
 			collect.SetActive(false);
+
 			this.collectibleCount++;
+			this.UpdateCount();
 			if (this.collectibleCount == this.collectiblesParent.transform.childCount) {
-				int level = levelInfo.levelID + 1;
-				if (levelInfo.lastLevel) level = 1;
-				SceneManager.LoadScene("Level " + level, LoadSceneMode.Single);
+				this.winObject.SetActive(true);
+
+				if (levelInfo.lastLevel) {
+					this.endObject.SetActive(true);
+				}
+				else {
+					this.nextLevelTick = 1;
+				}
 			}
 		}
 	}
@@ -81,6 +101,14 @@ public class ballMovement : MonoBehaviour
 	}
 
 	void FixedUpdate() {
+		if (this.nextLevelTick == this.nextLevelDelay) {
+			SceneManager.LoadScene("Level " + (levelInfo.levelID + 1), LoadSceneMode.Single);
+			return;
+		}
+		else if (this.nextLevelTick > 0) {
+			this.nextLevelTick++;
+		}
+
 		bool onGround = this.onground.Count != 0;
 		if (onGround) {
 			this.coyoteTime = 0;
@@ -126,10 +154,15 @@ public class ballMovement : MonoBehaviour
 
 		float rad = Mathf.Atan2(this.move.x, this.move.y) + (this.mainCamera.transform.eulerAngles.y * Mathf.Deg2Rad);
 		float distance = Mathf.Sqrt(Mathf.Pow(this.move.x, 2) + Mathf.Pow(this.move.y, 2));
+		float currentSpeed = this.speed;
+		if (! onGround)
+		{
+			currentSpeed *= this.midAirSpeed;
+		}
         Vector3 move3 = new Vector3(
-            Mathf.Sin(rad) * speed * distance,
+            Mathf.Sin(rad) * currentSpeed * distance,
             y,
-			Mathf.Cos(rad) * speed * distance
+			Mathf.Cos(rad) * currentSpeed * distance
         );
         rb.AddForce(move3);
     }
