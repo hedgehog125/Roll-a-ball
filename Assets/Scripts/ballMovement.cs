@@ -36,6 +36,8 @@ public class ballMovement : MonoBehaviour
 	private float holdJumpTime;
 	private int nextLevelTick;
 	private int collectibleCount;
+	public float climbTick;
+	public bool climbing;
 
 
 	private void UpdateCount() {
@@ -74,8 +76,13 @@ public class ballMovement : MonoBehaviour
 		}
 		if (below) {
 			this.onground.Add(collision.gameObject);
+			this.climbing = false;
 		}
-
+		else
+        {
+			climbTick = 0;
+			this.climbing = true;
+        }
 	}
 	void OnTriggerEnter(Collider collision) {
 		GameObject collect = collision.gameObject;
@@ -97,6 +104,7 @@ public class ballMovement : MonoBehaviour
 		}
 	}
 	void OnCollisionExit(Collision collision) {
+		this.climbing = false;
 		this.onground.Remove(collision.gameObject);
 	}
 
@@ -159,9 +167,21 @@ public class ballMovement : MonoBehaviour
 		{
 			currentSpeed *= this.midAirSpeed;
 		}
+
+		if (climbing)
+        {
+			if (climbTick > 1)
+            {
+				climbing = false;
+            }
+			else
+            {
+				climbTick += Time.deltaTime;
+            }
+        }
         Vector3 move3 = new Vector3(
             Mathf.Sin(rad) * currentSpeed * distance,
-            y,
+            y + (this.climbing? 10 : 0),
 			Mathf.Cos(rad) * currentSpeed * distance
         );
         rb.AddForce(move3);
