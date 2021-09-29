@@ -16,6 +16,15 @@ public class ballMovement : MonoBehaviour
 	public int maxJumpHold;
 	public float jumpHoldCurveSteepness;
 	public int nextLevelDelay;
+	public float initialClimbSpeed;
+	public float climbTriggerSpeed;
+	public float climbSpeedTotalGain;
+	public float maxClimbTime;
+	public float climbCancelTime;
+	public float topClimbCancelMargin;
+	public float neutralSlowdown;
+	public float neutralDeadzone;
+
 	public GameObject mainCamera;
 	public GameObject collectiblesParent;
 	public GameObject levelInfoSprite;
@@ -28,44 +37,48 @@ public class ballMovement : MonoBehaviour
 	private Rigidbody rb;
 	private Collider col;
 
-    public Vector2 move;
+    private Vector2 move;
 	private bool isJumping;
 	private int jumpBufferTick;
 	private List<GameObject> onground = new List<GameObject>();
+	private List<GameObject> climbObjects = new List<GameObject>();
 	private int coyoteTime;
 	private float holdJumpTime;
 	private int nextLevelTick;
 	private int collectibleCount;
-	public float climbTick;
-	public bool climbing;
+	private float climbTick;
+	private bool climbing;
+	private float currentClimbingSpeed;
+	private bool climbCancelling;
+	private float climbCancelTick;
 
 
 	private void UpdateCount() {
-		this.countObject.text = "Count: " + this.collectibleCount.ToString() + "/" + this.collectiblesParent.transform.childCount;
-		if (! this.levelInfo.showCount) { // Hide
-			this.countObject.text = "";
+		countObject.text = "Count: " + collectibleCount.ToString() + "/" + collectiblesParent.transform.childCount;
+		if (! levelInfo.showCount) { // Hide
+			countObject.text = "";
 		}
 	}
 	void Start()
     {
-        this.rb = this.GetComponent<Rigidbody>();
-		this.col = this.GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
+		col = GetComponent<Collider>();
 
-		this.levelInfo = this.levelInfoSprite.GetComponent<levelInfoScript>();
-		this.UpdateCount();
+		levelInfo = levelInfoSprite.GetComponent<levelInfoScript>();
+		UpdateCount();
 	}    
 
     void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
-        this.move = movementVector;
+        move = movementVector;
     }
 
 	void OnJump(InputValue value) {
-		this.isJumping = value.Get<float>() > 0;
+		isJumping = value.Get<float>() > 0;
 	}
 	void OnCollisionEnter(Collision collision) {
-		float bottomY = this.transform.position.y - (this.col.bounds.size.y / 4);
+		float bottomY = transform.position.y - (col.bounds.size.y / 4);
 		bool below = false;
 		int count = collision.contactCount;
 		for (int i = 0; i < count; i++) {
@@ -75,13 +88,19 @@ public class ballMovement : MonoBehaviour
 			}
 		}
 		if (below) {
-			this.onground.Add(collision.gameObject);
-			this.climbing = false;
-		}
-		else
-        {
+			onground.Add(collision.gameObject);
+			climbing = false;
+			rb.useGravity = true;
 			climbTick = 0;
-			this.climbing = true;
+		}
+		else if (onground.Count == 0 && Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) >= climbTriggerSpeed) {
+			climbObjects.Add(collision.gameObject);
+			if ((! climbing) && (climbTick <= 0 || climbCancelling)) {
+				currentClimbingSpeed = initialClimbSpeed;
+				climbing = true;
+				rb.useGravity = false;
+				climbCancelling = false;
+			}
         }
 	}
 	void OnTriggerEnter(Collider collision) {
@@ -89,99 +108,126 @@ public class ballMovement : MonoBehaviour
 		if (collect.CompareTag("Collectible")) {
 			collect.SetActive(false);
 
-			this.collectibleCount++;
-			this.UpdateCount();
-			if (this.collectibleCount == this.collectiblesParent.transform.childCount) {
-				this.winObject.SetActive(true);
+			collectibleCount++;
+			UpdateCount();
+			if (collectibleCount == collectiblesParent.transform.childCount) {
+				winObject.SetActive(true);
 
 				if (levelInfo.lastLevel) {
-					this.endObject.SetActive(true);
+					endObject.SetActive(true);
 				}
 				else {
-					this.nextLevelTick = 1;
+					nextLevelTick = 1;
 				}
 			}
 		}
 	}
 	void OnCollisionExit(Collision collision) {
-		this.climbing = false;
-		this.onground.Remove(collision.gameObject);
+		onground.Remove(collision.gameObject);
+		climbObjects.Remove(collision.gameObject);
+		if (climbObjects.Count == 0) {
+			float bottomY = transform.position.y - (col.bounds.size.y / 4);
+			if (bottomY >= collision.gameObject.transform.position.y + (collision.gameObject.GetComponent<Collider>().bounds.size.y / 2) + topClimbCancelMargin) {
+				climbing = false;
+				climbCancelling = false;
+				rb.useGravity = true;
+			}
+			else {
+				climbCancelling = true;
+				climbCancelTick = 0;
+			}
+		}
 	}
 
 	void FixedUpdate() {
-		if (this.nextLevelTick == this.nextLevelDelay) {
+		if (Math.Sqrt(Math.Pow(move.x, 2) + Math.Pow(move.y, 2)) <= neutralDeadzone) { // Neutral
+			if (onground.Count != 0) {
+				rb.velocity = new Vector3(rb.velocity.x / neutralSlowdown, rb.velocity.y, rb.velocity.z / neutralSlowdown);
+			}
+		}
+
+		if (nextLevelTick == nextLevelDelay) {
 			SceneManager.LoadScene("Level " + (levelInfo.levelID + 1), LoadSceneMode.Single);
 			return;
 		}
-		else if (this.nextLevelTick > 0) {
-			this.nextLevelTick++;
+		else if (nextLevelTick > 0) {
+			nextLevelTick++;
 		}
 
-		bool onGround = this.onground.Count != 0;
+		bool onGround = onground.Count != 0;
 		if (onGround) {
-			this.coyoteTime = 0;
+			coyoteTime = 0;
 		}
 		else {
-			if (this.coyoteTime != this.maxCoyoteTime) {
-				this.coyoteTime++;
+			if (coyoteTime != maxCoyoteTime) {
+				coyoteTime++;
 				onGround = true;
 			}
 		}
 
 		float y = 0.0f;
-		if (this.isJumping) {
-			if (onGround || (this.holdJumpTime > 0 && this.holdJumpTime < this.maxJumpHold)) {
-				this.jumpBufferTick = 0;
-				this.holdJumpTime++;
-				y = (this.jumpPower / (
+		if (isJumping) {
+			if (onGround || (holdJumpTime > 0 && holdJumpTime < maxJumpHold)) {
+				jumpBufferTick = 0;
+				holdJumpTime++;
+				y = (jumpPower / (
 					Mathf.Sqrt(
-						this.holdJumpTime
-						* this.jumpHoldCurveSteepness
+						holdJumpTime
+						* jumpHoldCurveSteepness
 					)
-					- (this.jumpHoldCurveSteepness - 1)
-				)) * ((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) * this.jumpSpeedBoost) + 1);
+					- (jumpHoldCurveSteepness - 1)
+				)) * ((Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) * jumpSpeedBoost) + 1);
 			}	
 		}
 		else {
-			if (this.holdJumpTime > 0) {
-				this.holdJumpTime = 0.0f;
-				this.coyoteTime = 0;
+			if (holdJumpTime > 0) {
+				holdJumpTime = 0.0f;
+				coyoteTime = 0;
 			}
 		}
 
 		// Prevent jump from happening if it was pressed in air once it's been pressed for longer than maxJumpBufferTime
-		if ((! (this.holdJumpTime > 0)) && (((! onGround) && this.isJumping) || this.jumpBufferTick != 0)) {
-			if (this.jumpBufferTick == this.maxJumpBufferTime) {
-				this.jumpBufferTick = 0;
-				this.isJumping = false;
+		if ((! (holdJumpTime > 0)) && (((! onGround) && isJumping) || jumpBufferTick != 0)) {
+			if (jumpBufferTick == maxJumpBufferTime) {
+				jumpBufferTick = 0;
+				isJumping = false;
 			}
 			else {
-				this.jumpBufferTick++;
+				jumpBufferTick++;
 			}
 		}
 
-		float rad = Mathf.Atan2(this.move.x, this.move.y) + (this.mainCamera.transform.eulerAngles.y * Mathf.Deg2Rad);
-		float distance = Mathf.Sqrt(Mathf.Pow(this.move.x, 2) + Mathf.Pow(this.move.y, 2));
-		float currentSpeed = this.speed;
-		if (! onGround)
-		{
-			currentSpeed *= this.midAirSpeed;
+		float rad = Mathf.Atan2(move.x, move.y) + (mainCamera.transform.eulerAngles.y * Mathf.Deg2Rad);
+		float distance = Mathf.Sqrt(Mathf.Pow(move.x, 2) + Mathf.Pow(move.y, 2));
+		float currentSpeed = speed;
+		if (! onGround) {
+			currentSpeed *= midAirSpeed;
 		}
 
-		if (climbing)
-        {
-			if (climbTick > 1)
-            {
+		if (climbing) {
+			if (climbCancelling) {
+				if (climbCancelTick >= climbCancelTime) {
+					climbing = false;
+					rb.useGravity = true;
+					climbCancelling = false;
+				}
+				else {
+					climbCancelTick += Time.deltaTime;
+				}
+			}
+			if (climbTick > maxClimbTime) {
 				climbing = false;
-            }
-			else
-            {
+				rb.useGravity = true;
+				climbCancelling = false;
+			}
+			else {
 				climbTick += Time.deltaTime;
-            }
-        }
-        Vector3 move3 = new Vector3(
+				currentClimbingSpeed += climbSpeedTotalGain * Time.deltaTime;
+			}
+		}
+		Vector3 move3 = new Vector3(
             Mathf.Sin(rad) * currentSpeed * distance,
-            y + (this.climbing? 10 : 0),
+            y + (climbing? currentClimbingSpeed : 0),
 			Mathf.Cos(rad) * currentSpeed * distance
         );
         rb.AddForce(move3);

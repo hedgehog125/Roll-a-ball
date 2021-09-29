@@ -135,13 +135,20 @@ MonoBehaviour:
   maxJumpHold: 7
   jumpHoldCurveSteepness: 2
   nextLevelDelay: 200
+  initialClimbSpeed: 3
+  climbTriggerSpeed: 1
+  climbSpeedTotalGain: 10
+  maxClimbTime: 0.5
+  climbCancelTime: 0.15
+  topClimbCancelMargin: 0.1
+  neutralSlowdown: 1.025
+  neutralDeadzone: 0.05
   mainCamera: {fileID: 0}
   collectiblesParent: {fileID: 0}
   levelInfoSprite: {fileID: 0}
   countObject: {fileID: 0}
   winObject: {fileID: 0}
   endObject: {fileID: 0}
-  move: {x: 0, y: 0}
 --- !u!114 &4491171030019755669
 MonoBehaviour:
   m_ObjectHideFlags: 0
