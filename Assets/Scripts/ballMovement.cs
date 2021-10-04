@@ -52,6 +52,11 @@ public class ballMovement : MonoBehaviour
 	private bool climbCancelling;
 	private float climbCancelTick;
 
+	public AudioSource bumpSound1;
+	public AudioSource bumpSound2;
+	public AudioSource jumpSound;
+	public AudioSource collectSound;
+
 
 	private void UpdateCount() {
 		countObject.text = "Count: " + collectibleCount.ToString() + "/" + collectiblesParent.transform.childCount;
@@ -79,6 +84,7 @@ public class ballMovement : MonoBehaviour
 	}
 	void OnCollisionEnter(Collision collision) {
 		float bottomY = transform.position.y - (col.bounds.size.y / 4);
+		float speed = Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2));
 		bool below = false;
 		int count = collision.contactCount;
 		for (int i = 0; i < count; i++) {
@@ -93,19 +99,36 @@ public class ballMovement : MonoBehaviour
 			rb.useGravity = true;
 			climbTick = 0;
 		}
-		else if (onground.Count == 0 && Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2)) >= climbTriggerSpeed) {
-			climbObjects.Add(collision.gameObject);
-			if ((! climbing) && (climbTick <= 0 || climbCancelling)) {
-				currentClimbingSpeed = initialClimbSpeed;
-				climbing = true;
-				rb.useGravity = false;
-				climbCancelling = false;
-			}
+		else if (onground.Count == 0 && speed >= climbTriggerSpeed) {
+			if (! collision.gameObject.CompareTag("CameraIgnore"))
+            {
+				climbObjects.Add(collision.gameObject);
+				if ((! climbing) && (climbTick <= 0 || climbCancelling)) {
+					currentClimbingSpeed = initialClimbSpeed;
+					climbing = true;
+					rb.useGravity = false;
+					climbCancelling = false;
+				}
+            }
         }
+
+		float volume = Math.Max(Math.Min(speed / 4, 1.0f), 0.1f);
+		if (UnityEngine.Random.Range(0, 1) == 0)
+        {
+			bumpSound1.volume = volume;
+			bumpSound1.Play();
+        }
+		else
+        {
+			bumpSound2.volume = volume;
+			bumpSound2.Play();
+		}
 	}
 	void OnTriggerEnter(Collider collision) {
 		GameObject collect = collision.gameObject;
 		if (collect.CompareTag("Collectible")) {
+			collectSound.Play();
+
 			collect.SetActive(false);
 
 			collectibleCount++;
@@ -168,6 +191,10 @@ public class ballMovement : MonoBehaviour
 		float y = 0.0f;
 		if (isJumping) {
 			if (onGround || (holdJumpTime > 0 && holdJumpTime < maxJumpHold)) {
+				if (holdJumpTime == 0)
+                {
+					jumpSound.Play();
+                }
 				jumpBufferTick = 0;
 				holdJumpTime++;
 				y = (jumpPower / (

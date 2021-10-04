@@ -6,7 +6,6 @@ public class collectableRotate : MonoBehaviour {
 	public float bobAmount;
 	public float bobSpeed;
 
-
 	private float yCentre;
 	private float time;
 	private void Start() {
